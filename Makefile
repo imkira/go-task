@@ -12,7 +12,7 @@ govet:
 	go tool vet -all -v=true *.go
 
 test:
-	go test -v -race -cpu=1,2,4 -coverprofile=coverage.out -covermode=atomic
+	go test -v -race -cpu=1,2,4 -coverprofile=coverage.txt -covermode=atomic
 
 cover:
-	go tool cover -html=coverage.out -o coverage.html
+	go tool cover -html=coverage.txt -o coverage.html
