@@ -1,0 +1,20 @@
+# MacOSX
+.DS_Store
+
+# vim
+*.swp
+
+# build
+/build
+/dist/build
+.vagrant
+
+# Godeps
+/Godeps/*
+!/Godeps/Godeps.json
+
+# test
+test.out
+test.xml
+coverage.html
+coverage.out
