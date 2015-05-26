@@ -57,6 +57,11 @@ For advanced usage, make sure to check the
 
 ### Example: Creating a Task
 
+You can create a ```Task``` by adopting the
+[Task](http://godoc.org/github.com/imkira/go-task#Task) interface.
+
+The following are the recommended 2 ways to do it.
+
 #### Using NewTaskWithFunc (easier)
 
 ```go
@@ -78,11 +83,6 @@ func main() {
 ```
 
 #### Embedding StandardTask in your struct
-
-You can create a ```Task``` by adopting the
-[Task](http://godoc.org/github.com/imkira/go-task#Task) interface.
-
-The following are the recommended 2 ways to do it.
 
 ```go
 import "github.com/imkira/go-task"
@@ -153,10 +153,10 @@ func newPrintTask(str string) task.Task {
 }
 ```
 
-You can also throttle, for a given ```ConcurrentGroup```, the number of tasks you
-want to be executing simultaneously at any given moment. You just need to set
-the ```MaxConcurrency``` setting of the ```ConcurrentGroup``` before running
-it.
+You can also control, for a given ```ConcurrentGroup```, the maximum number of
+tasks you want to be executing simultaneously at any given moment. You just
+need to set the ```MaxConcurrency``` property of the ```ConcurrentGroup```
+before running it.
 
 ```go
   g1 := task.NewConcurrentGroup()
@@ -198,7 +198,7 @@ func newPrintTask(str string) task.Task {
 
 ### Example: Task Trees
 
-Because Groups are also Tasks, you can compose tasks into trees of taskis.
+Because Groups are also Tasks, you can compose tasks into trees of tasks.
 Please check
 [examples/tree.go](https://github.com/imkira/go-task/blob/master/examples/tree.go)
 for an example on how to do it.
@@ -291,13 +291,13 @@ is cancelled, the group gets cancelled too as soon as possible.
   // seconds to execute.
 ```
 
-Pleae note this example is "almost" equivalent to the previous. But there is
+Please note this example is "almost" equivalent to the previous. But there is
 actually a big difference: With SetTimeout, the deadline is automatically set
-right before the task is run. With SetDeadline, the deadline is set the moment
-you call SetDeadline. For this reason, you should use SetTimeout for task
-duration restrictions (e.g., the task should not take more than X time), and
-SetDeadline for absolute date/time restrictions (e.g., the task should finish
-before midnight).
+right when the task is about to run. With SetDeadline, the deadline is set the
+moment you call SetDeadline. For this reason, you should use SetTimeout for
+task duration restrictions (e.g., the task should not take more than X time),
+and SetDeadline for absolute date/time restrictions (e.g., the task should
+finish before midnight).
 
 #### Example: Cancelling Tasks with Signals
 
