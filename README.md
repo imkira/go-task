@@ -89,7 +89,7 @@ import "github.com/imkira/go-task"
 
 type fooTask struct {
   // embed StandardTask which includes the basic framework for Tasks.
-	*task.StandardTask
+  *task.StandardTask
 
   // add fields below
   // ...
@@ -99,21 +99,21 @@ type fooTask struct {
 func (ft *fooTask) Run(ctx Context) {
   // In case you embed StandardTask, like in this example, the following
   // Start and Finish logic is required.
-	if err := ft.Start(); err != nil {
-		return
-	}
+  if err := ft.Start(); err != nil {
+    return
+  }
   // defer here is absolutely required. If this task panics, the parent tasks
   // will wait for this task forever.
-	defer ft.Finish()
+  defer ft.Finish()
 
   // finally, write your task below
   // ...
 }
 
 func main() {
-	t := &fooTask{
-		StandardTask: task.NewStandardTask(),
-	}
+  t := &fooTask{
+    StandardTask: task.NewStandardTask(),
+  }
 
   // run task (without context)
   t.Run(nil)
@@ -129,13 +129,13 @@ If you want to run tasks concurrently, you can do it like:
 ```go
 func main() {
   // Create a ConcurrentGroup. Don't forget, Groups are also Tasks.
-	g1 := task.NewConcurrentGroup()
+  g1 := task.NewConcurrentGroup()
 
   // Calling AddChild with a Task adds it to the group.
   // Here, we add 3 tasks. Each print their name.
-	g1.AddChild(newPrintTask("task1"))
-	g1.AddChild(newPrintTask("task2"))
-	g1.AddChild(newPrintTask("task3"))
+  g1.AddChild(newPrintTask("task1"))
+  g1.AddChild(newPrintTask("task2"))
+  g1.AddChild(newPrintTask("task3"))
 
   // Run all 3 tasks concurrently.
   // Although each task takes about 1 second to run, it should all still
@@ -145,11 +145,11 @@ func main() {
 }
 
 func newPrintTask(str string) task.Task {
-	run := func(t task.Task, ctx task.Context) {
-		time.Sleep(1 * time.Second)
-		fmt.Println(str)
-	}
-	return task.NewTaskWithFunc(run)
+  run := func(t task.Task, ctx task.Context) {
+    time.Sleep(1 * time.Second)
+    fmt.Println(str)
+  }
+  return task.NewTaskWithFunc(run)
 }
 ```
 
@@ -159,8 +159,8 @@ the ```MaxConcurrency``` setting of the ```ConcurrentGroup``` before running
 it.
 
 ```go
-	g1 := task.NewConcurrentGroup()
-	g1.MaxConcurrency = 100
+  g1 := task.NewConcurrentGroup()
+  g1.MaxConcurrency = 100
 ```
 
 For a more elaborate example please check
@@ -173,13 +173,13 @@ If you want to run tasks in series, you can do it like:
 ```go
 func main() {
   // Create a SerialGroup. Don't forget, Groups are also Tasks.
-	g1 := task.NewSerialGroup()
+  g1 := task.NewSerialGroup()
 
   // Calling AddChild with a Task adds it to the group.
   // Here, we add 3 tasks. Each print their name.
-	g1.AddChild(newPrintTask("task1"))
-	g1.AddChild(newPrintTask("task2"))
-	g1.AddChild(newPrintTask("task3"))
+  g1.AddChild(newPrintTask("task1"))
+  g1.AddChild(newPrintTask("task2"))
+  g1.AddChild(newPrintTask("task3"))
 
   // Run all 3 tasks in series.
   // Since each task takes about 1 second to execute, it should all take
@@ -188,11 +188,11 @@ func main() {
 }
 
 func newPrintTask(str string) task.Task {
-	run := func(t task.Task, ctx task.Context) {
-		time.Sleep(1 * time.Second)
-		fmt.Println(str)
-	}
-	return task.NewTaskWithFunc(run)
+  run := func(t task.Task, ctx task.Context) {
+    time.Sleep(1 * time.Second)
+    fmt.Println(str)
+  }
+  return task.NewTaskWithFunc(run)
 }
 ```
 
@@ -214,10 +214,10 @@ You can do it for individual Tasks or for task Groups.
   // ...
 
   // here we create a ConcurrentGroup and we add 3 tasks: t1, t2, and t3.
-	g1 := task.NewConcurrentGroup()
-	g1.AddChild(t1)
-	g1.AddChild(t2)
-	g1.AddChild(t3)
+  g1 := task.NewConcurrentGroup()
+  g1.AddChild(t1)
+  g1.AddChild(t2)
+  g1.AddChild(t3)
 
   // run the group in a separate goroutine so it doesn't block here
   go g1.Run(nil)
@@ -245,12 +245,12 @@ is cancelled, the group gets cancelled too as soon as possible.
   // run a long task
   go longTask.Run(nil)
 
-	// cancel task 1 second later
-	time.AfterFunc(time.Second, func() {
+  // cancel task 1 second later
+  time.AfterFunc(time.Second, func() {
     // Cancel task with custom error.
     // You can also pass nil (it will become task.ErrTaskCancelled).
-		longTask.Cancel(fooError)
-	})
+    longTask.Cancel(fooError)
+  })
 
   // wait for longTask to finish executing
   err := longTask.Wait()
@@ -264,7 +264,7 @@ is cancelled, the group gets cancelled too as soon as possible.
   // ...
 
   // set a maximum duration of 3 seconds for this task.
-	longTask.SetTimeout(3 * time.Second)
+  longTask.SetTimeout(3 * time.Second)
 
   // run and wait for a long task
   longTask.Run(nil)
@@ -281,7 +281,7 @@ is cancelled, the group gets cancelled too as soon as possible.
   // ...
 
   // set a maximum duration of 3 seconds for this task.
-	task2.SetDeadline(time.Now().Add(3 * time.Second))
+  task2.SetDeadline(time.Now().Add(3 * time.Second))
 
   // run and wait for a long task
   longTask.Run(nil)
@@ -306,7 +306,7 @@ before midnight).
   // ...
 
   // cancel task if SIGTERM and SIGINT (ctrl-c) is detected
-	task.SetSignals(syscall.SIGINT, syscall.SIGTERM)
+  task.SetSignals(syscall.SIGINT, syscall.SIGTERM)
 
   // run and wait for a long task
   longTask.Run(nil)
@@ -324,29 +324,29 @@ sharing data with tasks.
 ```go
 func main() {
   // create a Context object
-	ctx := task.NewContext()
+  ctx := task.NewContext()
 
   // put what you want inside
-	ctx.Set("foo", "bar")
-	ctx.Set("true", true)
-	ctx.Set("one", 1)
-	ctx.Set("pi", 3.14)
+  ctx.Set("foo", "bar")
+  ctx.Set("true", true)
+  ctx.Set("one", 1)
+  ctx.Set("pi", 3.14)
 
   // create task that prints the context
-	t := newPrintContextTask()
+  t := newPrintContextTask()
 
   // run it using the context
   t.Run(ctx)
 }
 
 func newPrintContextTask() task.Task {
-	run := func(t task.Task, ctx task.Context) {
-		fmt.Println(ctx.Get("foo"))
-		fmt.Println(ctx.Get("true"))
-		fmt.Println(ctx.Get("one"))
-		fmt.Println(ctx.Get("pi"))
-	}
-	return task.NewTaskWithFunc(run)
+  run := func(t task.Task, ctx task.Context) {
+    fmt.Println(ctx.Get("foo"))
+    fmt.Println(ctx.Get("true"))
+    fmt.Println(ctx.Get("one"))
+    fmt.Println(ctx.Get("pi"))
+  }
+  return task.NewTaskWithFunc(run)
 }
 ```
 
