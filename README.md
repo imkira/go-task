@@ -4,6 +4,7 @@
 [![GoDoc](https://godoc.org/github.com/imkira/go-task?status.svg)](https://godoc.org/github.com/imkira/go-task)
 [![Build Status](http://img.shields.io/travis/imkira/go-task.svg?style=flat)](https://travis-ci.org/imkira/go-task)
 [![Coverage](http://img.shields.io/codecov/c/github/imkira/go-task.svg?style=flat)](https://codecov.io/github/imkira/go-task)
+[![codebeat badge](https://codebeat.co/badges/fd955959-f9c3-4732-b2f8-0f3a2a3d530e)](https://codebeat.co/projects/github-com-imkira-go-task)
 
 task is a [Go](http://golang.org) utility package for simplifying execution of
 tasks.
