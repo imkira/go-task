@@ -1,4 +1,4 @@
-// Creates tasks t1, t2, t3 and cancels t2. Waits for them to finish and prints
+// Creates tasks t1, t2, t3 and cancels t3. Waits for them to finish and prints
 // state information about each.
 package main
 
@@ -41,7 +41,7 @@ func main() {
 	showStatus("task2", t2)
 
 	// show status for task3
-	showStatus("task3", t2)
+	showStatus("task3", t3)
 }
 
 func newPrintTask(str string) task.Task {
